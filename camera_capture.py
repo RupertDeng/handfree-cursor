@@ -65,9 +65,9 @@ class CameraCapture:
     """
     Draw the key points onto the video capture frame if needed.
     """
-    cv2.circle(frame, base, 10, (0, 0, 0), -1)
+    cv2.circle(frame, base, 35, (0, 0, 0), -1)
     for x, y in points:
-      cv2.circle(frame, (x, y), 2, (0, 255, 255), -1)
+      cv2.circle(frame, (x, y), 5, (0, 255, 255), -1)
     
 
   def streaming(self, data_pipe, show_key_points):

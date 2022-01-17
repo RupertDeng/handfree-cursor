@@ -32,6 +32,10 @@ class CursorDriver:
     return int(((point1[0] - point2[0]) ** 2 + (point1[1] - point2[1]) ** 2) ** 0.5)
 
   def get_cursor_movement(self, face_center, mouth_opening, normalization):
+    """
+    get cursor x/y step by normalizing the distance between face center point and base point.
+    if mouth is closed, speed limiter will apply.
+    """
     dx = face_center[0] - self.base_point[0]
     dy = face_center[1] - self.base_point[1]
     opening = mouth_opening * normalization
@@ -41,6 +45,9 @@ class CursorDriver:
     return cursor_dx, cursor_dy
 
   def detect_click(self, mouth_opening, normalization):
+    """
+    detect the single click event by mouth open and close, when face_center is within the base nomove zone.
+    """
     is_open = (mouth_opening * normalization) >= self.mouth_open_thresh
     if not self.mouth_sequence:
       if not is_open:
