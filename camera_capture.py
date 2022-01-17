@@ -34,7 +34,6 @@ class CameraCapture:
     Face detection from video capture frame. Only allow one face to be there.
     Returns a flag for 3 possible scenarios, the detected face object, as well as converted grayscale frame picture.
     """
-    frame = cv2.flip(frame, 1)
     gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     faces = self.detector(gray_frame, 1)
     if len(faces) == 0:
@@ -48,7 +47,7 @@ class CameraCapture:
     """
     Extract 5 key points from the detected face.
     """
-    landmarks = self.detector(gray_frame, face)
+    landmarks = self.predictor(gray_frame, face)
     face_top = [21, 22]
     face_bottom = [7, 8, 9]
     face_center = [32, 33, 34]
@@ -62,13 +61,14 @@ class CameraCapture:
       points.append((point_x, point_y))
     return points
 
-  def draw_key_points(self, frame, points):
+  def draw_key_points(self, frame, points, base):
     """
     Draw the key points onto the video capture frame if needed.
     """
+    cv2.circle(frame, base, 10, (0, 0, 0), -1)
     for x, y in points:
       cv2.circle(frame, (x, y), 2, (0, 255, 255), -1)
-
+    
 
   def streaming(self, data_pipe, show_key_points):
     """
@@ -79,8 +79,10 @@ class CameraCapture:
     show_key_points: boolean parameter whether or not to show the 5 extracted key points.
     """
     END = [(-1, -1), (-1, -1), (-1, -1), (-1, -1), (-1, -1)]    # End signal to send over to end the cursor driver process
+    base_point = []                                             # the first face_center point as base_point
     while True:
       success, frame = self.capture.read()
+      frame = cv2.flip(frame, 1)
       if not success:
         self.destruct()
         data_pipe.send(END)
@@ -96,7 +98,8 @@ class CameraCapture:
       
       key_points = self.get_key_points(gray_frame, face)
       data_pipe.send(key_points)
-      if show_key_points: self.draw_key_points(frame, key_points)
+      if not base_point: base_point = key_points[0]
+      if show_key_points: self.draw_key_points(frame, key_points, base_point)
       cv2.imshow('Face', frame)
 
       if cv2.waitKey(1) & 0xFF == ord('q'):

@@ -37,6 +37,7 @@ def camera_input(conn):
       if i in [32, 33, 34, 61, 62, 63, 65, 66, 67, 7, 8, 9, 21, 22]:
         x, y = landmarks.part(i).x, landmarks.part(i).y
         cv2.circle(frame, (x, y), 2, (0, 255, 255), -1)
+        if i == 8: print(x, y)
     # print(landmarks.part(8).y - landmarks.part(22).y)
     cv2.imshow('Face', frame)
     if cv2.waitKey(1) & 0xFF == ord('q'):
