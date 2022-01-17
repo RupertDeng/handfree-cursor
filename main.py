@@ -8,7 +8,7 @@ def camera(conn):
   camera_instance.streaming(conn, True)
 
 def cursor(conn):
-  cursor_instance = CursorDriver(1000, 30, 1.5, 1.8, 5, 0.15)
+  cursor_instance = CursorDriver(1000, 30, 1.5, 1.8, 8, 0.15)
   cursor_instance.steering(conn)
 
 
