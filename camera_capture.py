@@ -66,8 +66,11 @@ class CameraCapture:
     Draw the key points onto the video capture frame if needed.
     """
     cv2.circle(frame, base, 25, (200, 200, 200), -1)
-    for x, y in points:
-      cv2.circle(frame, (x, y), 5, (0, 255, 255), -1)
+    for i, point in enumerate(points):
+      if i == 0: color = (0, 255, 255)
+      elif i <= 2: color = (255, 0, 0)
+      else: color = (255, 255, 255)
+      cv2.circle(frame, point, 4, color, -1)
     
 
   def streaming(self, data_pipe, show_key_points):

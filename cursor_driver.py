@@ -77,8 +77,8 @@ class CursorDriver:
         if not self.init_length: self.init_length = face_length
 
         mouth_opening = self.get_length(mouth_top, mouth_bottom)
-        normalization = face_length / self.init_length
-        if self.get_length(face_center, self.base_point) <= self.base_nomove_zone:
+        normalization = self.init_length / face_length
+        if self.get_length(face_center, self.base_point) * normalization <= self.base_nomove_zone:
           cursor_dx = cursor_dy = 0
           self.detect_click(mouth_opening, normalization)
         else:
