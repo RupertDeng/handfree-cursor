@@ -14,6 +14,6 @@
 ## 3) Installation and Testing
 - Install the required packages after cloning the repository
 - Download the pre-trained 68-point dlib model from [this link](https://github.com/davisking/dlib-models/blob/master/shape_predictor_68_face_landmarks.dat.bz2). Extract the dat file, rename to 'shape_68.dat' and save under root.
-- Start the app with `python main.py`.
-- Play with the provided parameters for camera and cursor modules to suit your camera/screen specification.
+- Start the app with `python main.py`, terminate it by press 'q' on the camera window.
+- Play with the provided parameters for camera and cursor modules to suit your preference.
 - Extend the functionality as you like and have fun.
